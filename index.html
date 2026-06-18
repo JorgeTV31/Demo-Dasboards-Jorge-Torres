@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portafolio · CPA Jorge Torres Villamar</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0A2E56; --navy-deep:#07203D; --amber:#FCA40C;
+    --canvas:#F6F6F4; --ink:#1E293B; --slate:#475569; --muted:#94A3B8;
+    --line:#E2E8F0; --card:#FFFFFF;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .serif{font-family:'Fraunces',Georgia,serif}
+  .num{font-family:'DM Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;transition:transform .25s cubic-bezier(.2,.6,.2,1),box-shadow .25s,border-color .25s;display:block;text-decoration:none;color:inherit}
+  .card:hover{transform:translateY(-4px);box-shadow:0 16px 40px -18px rgba(10,46,86,.35);border-color:#C7D5E6}
+  .thumb{height:150px;border-radius:12px;position:relative;overflow:hidden}
+  .arrow{transition:transform .25s}
+  .card:hover .arrow{transform:translateX(4px)}
+  .barline{position:absolute;bottom:0;border-radius:3px 3px 0 0}
+  .chip{font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header style="background:linear-gradient(120deg,var(--navy-deep),var(--navy))">
+  <div class="max-w-[980px] mx-auto px-6 py-14 sm:py-20">
+    <div class="eyebrow" style="color:#7E9DC4">Portafolio profesional</div>
+    <h1 class="serif text-white text-[34px] sm:text-[46px] font-semibold tracking-tight mt-3 leading-[1.1]">
+      CPA Jorge Torres Villamar
+    </h1>
+    <p class="text-slate-300 text-[16px] sm:text-[18px] mt-4 max-w-xl leading-relaxed">
+      Contador especializado en control de cartera, cierre y cumplimiento tributario — que diseña las herramientas con las que el área financiera decide más rápido.
+    </p>
+    <div class="flex flex-wrap gap-2 mt-6">
+      <span class="chip" style="background:rgba(255,255,255,.08);color:#CBD8E8">Cuentas por cobrar</span>
+      <span class="chip" style="background:rgba(255,255,255,.08);color:#CBD8E8">Costos de producción</span>
+      <span class="chip" style="background:rgba(255,255,255,.08);color:#CBD8E8">SRI · Supercias</span>
+      <span class="chip" style="background:rgba(252,164,12,.16);color:#FCD37A">Dashboards financieros</span>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-[980px] mx-auto px-6 py-12">
+  <div class="flex items-end justify-between mb-6">
+    <div>
+      <div class="eyebrow">Demos</div>
+      <h2 class="serif text-[24px] font-semibold mt-1" style="color:var(--navy)">Herramientas que he construido</h2>
+    </div>
+    <span class="text-[12px] text-[var(--muted)] text-right max-w-[200px]">Todos los datos son ficticios. Diseño y desarrollo propios.</span>
+  </div>
+
+  <div class="grid sm:grid-cols-2 gap-5">
+
+    <!-- CARTERA -->
+    <a class="card p-4" href="cartera/">
+      <div class="thumb" style="background:linear-gradient(135deg,#0A2E56,#143b6b)">
+        <!-- mini bars -->
+        <div class="barline" style="left:9%;width:11%;height:42%;background:#3B5C86"></div>
+        <div class="barline" style="left:24%;width:11%;height:64%;background:#3B5C86"></div>
+        <div class="barline" style="left:39%;width:11%;height:50%;background:#3B5C86"></div>
+        <div class="barline" style="left:54%;width:11%;height:78%;background:var(--amber)"></div>
+        <div class="barline" style="left:69%;width:11%;height:58%;background:#3B5C86"></div>
+        <div class="barline" style="left:84%;width:11%;height:88%;background:var(--amber)"></div>
+        <span class="chip absolute top-3 left-3" style="background:rgba(255,255,255,.14);color:#fff">Visualización</span>
+      </div>
+      <div class="px-1 pt-4 pb-1">
+        <h3 class="font-semibold text-[17px] tracking-tight" style="color:var(--navy)">Tablero de Control de Cartera (CxC)</h3>
+        <p class="text-[13px] text-[var(--slate)] mt-1.5 leading-relaxed">Seguimiento semanal de cobro: objetivo esperado, cumplimiento con semáforo, aging y riesgo por deudor.</p>
+        <div class="flex items-center gap-1 mt-3 text-[13px] font-semibold" style="color:var(--amber)">
+          Abrir demo <span class="arrow">→</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CALCULADORA -->
+    <a class="card p-4" href="calculadora/">
+      <div class="thumb" style="background:linear-gradient(135deg,#07203D,#0A2E56)">
+        <!-- donut -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div style="width:88px;height:88px;border-radius:999px;background:conic-gradient(var(--amber) 0 84%,#2563EB 84% 92%,#16A34A 92% 100%);-webkit-mask:radial-gradient(circle 26px at center,transparent 98%,#000 100%);mask:radial-gradient(circle 26px at center,transparent 98%,#000 100%)"></div>
+        </div>
+        <span class="chip absolute top-3 left-3" style="background:rgba(252,164,12,.22);color:#FCD37A">Interactivo</span>
+      </div>
+      <div class="px-1 pt-4 pb-1">
+        <h3 class="font-semibold text-[17px] tracking-tight" style="color:var(--navy)">Calculadora de Costos de Producción</h3>
+        <p class="text-[13px] text-[var(--slate)] mt-1.5 leading-relaxed">Recalcula costo unitario, precio sugerido y composición en tiempo real. Modelo de costeo para rotomoldeo.</p>
+        <div class="flex items-center gap-1 mt-3 text-[13px] font-semibold" style="color:var(--amber)">
+          Abrir demo <span class="arrow">→</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <footer class="text-center text-[12px] text-[var(--muted)] mt-14 pt-6" style="border-top:1px solid var(--line)">
+    <p>© 2026 · CPA Jorge Torres Villamar · Demos con datos ficticios para fines de portafolio.</p>
+  </footer>
+</main>
+
+</body>
+</html>
