@@ -1,1 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Costos de Producción — Demo interactivo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0A2E56; --navy-deep:#07203D; --amber:#FCA40C;
+    --canvas:#F6F6F4; --ink:#1E293B; --slate:#475569; --muted:#94A3B8;
+    --line:#E2E8F0; --card:#FFFFFF;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .serif{font-family:'Fraunces',Georgia,serif}
+  .num{font-family:'DM Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+  .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .chip{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px}
+  label.fld{display:block;font-size:12px;font-weight:600;color:var(--slate);margin-bottom:5px}
+  .inp{width:100%;border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-family:'DM Mono',monospace;font-size:14px;color:var(--ink);background:#fff;outline:none;transition:border .15s,box-shadow .15s}
+  .inp:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,46,86,.08)}
+  .pill{font-size:12px;font-weight:600;padding:7px 12px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--slate);cursor:pointer;transition:all .15s;white-space:nowrap}
+  .pill:hover{border-color:var(--navy);color:var(--navy)}
+  .pill.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+  input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:9px;background:#E2E8F0;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:999px;background:var(--amber);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:999px;background:var(--amber);cursor:pointer;border:2px solid #fff}
+  .row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .legdot{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:7px}
+</style>
+</head>
+<body>
+
+<header style="background:linear-gradient(105deg,var(--navy-deep),var(--navy))">
+  <div class="max-w-[1180px] mx-auto px-5 sm:px-7 py-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:var(--amber)">
+        <span class="serif font-semibold text-[var(--navy-deep)] text-lg">$</span>
+      </div>
+      <div class="leading-tight">
+        <div class="text-white font-semibold tracking-tight">Demo Industrial S.A.</div>
+        <div class="text-[12px] text-slate-300">Calculadora de Costos · Rotomoldeo</div>
+      </div>
+    </div>
+    <div class="ml-auto flex items-center gap-3">
+      <span class="chip" style="background:rgba(252,164,12,.16);color:#FCD37A;border:1px solid rgba(252,164,12,.35)">● DEMO · DATOS FICTICIOS</span>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-[1180px] mx-auto px-5 sm:px-7 py-8">
+
+  <div class="mb-6">
+    <div class="eyebrow">Costeo de producto · Tiempo real</div>
+    <h1 class="serif text-[26px] sm:text-[30px] font-semibold tracking-tight mt-1" style="color:var(--navy)">Calculadora de costos de producción</h1>
+    <p class="text-[13px] text-[var(--slate)] mt-1 max-w-2xl">Modifica cualquier valor y el costo unitario, el precio sugerido y la composición se recalculan al instante. Modelo de costeo para productos rotomoldeados (MP + MOD + Gas + CIF + componentes).</p>
+  </div>
+
+  <!-- Catálogo preset -->
+  <div class="flex items-center gap-2 mb-5 overflow-x-auto pb-1">
+    <span class="text-[12px] font-semibold text-[var(--muted)] mr-1 whitespace-nowrap">Catálogo demo:</span>
+    <button class="pill active" data-preset="0">Tanque 1000 L</button>
+    <button class="pill" data-preset="1">Tanque 500 L</button>
+    <button class="pill" data-preset="2">Contenedor 120 L</button>
+    <button class="pill" data-preset="3">Bidón 60 L</button>
+  </div>
+
+  <div class="grid lg:grid-cols-5 gap-4">
+
+    <!-- INPUTS -->
+    <section class="card p-5 lg:col-span-2">
+      <div class="eyebrow mb-3">Parámetros de producción</div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="fld">Peso producto (kg)</label>
+          <input class="inp" type="number" id="peso" step="0.1" value="38">
+        </div>
+        <div>
+          <label class="fld">Precio polietileno ($/kg)</label>
+          <input class="inp" type="number" id="pe" step="0.01" value="2.45">
+        </div>
+        <div>
+          <label class="fld">Tiempo de ciclo (min)</label>
+          <input class="inp" type="number" id="ciclo" step="1" value="55">
+        </div>
+        <div>
+          <label class="fld">Consumo de gas (kg)</label>
+          <input class="inp" type="number" id="gas" step="0.1" value="8">
+        </div>
+        <div>
+          <label class="fld">CIF por unidad ($)</label>
+          <input class="inp" type="number" id="cif" step="0.01" value="6.50">
+        </div>
+        <div>
+          <label class="fld">Componentes / FAV ($)</label>
+          <input class="inp" type="number" id="fav" step="0.01" value="4.20">
+        </div>
+      </div>
+
+      <div class="mt-5 pt-4" style="border-top:1px solid var(--line)">
+        <div class="flex items-center justify-between mb-2">
+          <label class="fld mb-0">Margen objetivo (sobre precio)</label>
+          <span class="num font-semibold text-[15px]" id="margenLbl" style="color:var(--navy)">35%</span>
+        </div>
+        <input type="range" id="margen" min="0" max="70" value="35" step="1">
+      </div>
+
+      <div class="mt-4 grid grid-cols-2 gap-2 text-[11px] text-[var(--muted)]">
+        <div>MOD: <span class="num">$0.08/min</span></div>
+        <div>Gas: <span class="num">$0.37/kg</span></div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="lg:col-span-3 grid gap-4">
+
+      <div class="grid grid-cols-3 gap-3">
+        <div class="card p-4">
+          <div class="eyebrow">Costo unitario</div>
+          <div class="num text-[22px] font-medium mt-1.5" id="rCosto" style="color:var(--navy)">$0.00</div>
+        </div>
+        <div class="card p-4" style="background:#FFF7E9;border-color:#F4D58D">
+          <div class="eyebrow" style="color:#B45309">Precio sugerido</div>
+          <div class="num text-[22px] font-semibold mt-1.5" id="rPrecio" style="color:#92400E">$0.00</div>
+        </div>
+        <div class="card p-4">
+          <div class="eyebrow">Utilidad / unidad</div>
+          <div class="num text-[22px] font-medium mt-1.5" id="rUtil" style="color:#16A34A">$0.00</div>
+        </div>
+      </div>
+
+      <div class="card p-5 grid sm:grid-cols-2 gap-5 items-center">
+        <div>
+          <div class="eyebrow mb-3">Composición del costo</div>
+          <div id="breakdown"></div>
+        </div>
+        <div style="height:220px"><canvas id="donut"></canvas></div>
+      </div>
+
+    </section>
+  </div>
+
+  <footer class="text-center text-[12px] text-[var(--muted)] pt-7 pb-2">
+    <p>Pieza de portafolio · Modelo de costeo y cifras <strong>ficticios</strong>, sin relación con ninguna empresa real.</p>
+    <p class="mt-1">Diseño y desarrollo por <strong style="color:var(--slate)">CPA Jorge Torres Villamar</strong></p>
+  </footer>
+</main>
+
+<script>
+const NAVY='#0A2E56', AMBER='#FCA40C';
+const COLORS=['#0A2E56','#2563EB','#FCA40C','#16A34A','#94A3B8'];
+const LABELS=['Materia prima','Mano de obra','Gas','CIF','Componentes'];
+const MOD_RATE=0.08, GAS_RATE=0.37;
+
+const presets=[
+  {peso:38,  pe:2.45, ciclo:55, gas:8,   cif:6.50, fav:4.20},
+  {peso:22,  pe:2.45, ciclo:38, gas:5,   cif:4.80, fav:3.10},
+  {peso:9.5, pe:2.55, ciclo:22, gas:2.5, cif:2.90, fav:1.80},
+  {peso:5.2, pe:2.55, ciclo:16, gas:1.6, cif:1.90, fav:1.20}
+];
+
+const $ = id => document.getElementById(id);
+const fmt = v => '$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+let donut;
+function initChart(){
+  donut=new Chart($('donut'),{
+    type:'doughnut',
+    data:{labels:LABELS,datasets:[{data:[1,1,1,1,1],backgroundColor:COLORS,borderColor:'#fff',borderWidth:2}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:'62%',
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.label+': '+fmt(c.parsed)}}}
+    }
+  });
+}
+
+function recalc(){
+  const peso=+$('peso').value||0, pe=+$('pe').value||0, ciclo=+$('ciclo').value||0,
+        gas=+$('gas').value||0, cif=+$('cif').value||0, fav=+$('fav').value||0,
+        margen=+$('margen').value||0;
+
+  const mp = peso*pe;
+  const mod = ciclo*MOD_RATE;
+  const gasC = gas*GAS_RATE;
+  const parts=[mp,mod,gasC,cif,fav];
+  const costo = parts.reduce((a,b)=>a+b,0);
+  const precio = margen<100 ? costo/(1-margen/100) : 0;
+  const util = precio-costo;
+
+  $('margenLbl').textContent = margen+'%';
+  $('rCosto').textContent = fmt(costo);
+  $('rPrecio').textContent = fmt(precio);
+  $('rUtil').textContent = fmt(util);
+
+  // breakdown rows
+  $('breakdown').innerHTML = LABELS.map((l,i)=>{
+    const pct = costo>0 ? (parts[i]/costo*100) : 0;
+    return `<div class="row">
+      <span class="text-[13px] text-[var(--slate)]"><span class="legdot" style="background:${COLORS[i]}"></span>${l}</span>
+      <span class="num text-[13px] font-medium">${fmt(parts[i])} <span class="text-[var(--muted)]">· ${pct.toFixed(0)}%</span></span>
+    </div>`;
+  }).join('');
+
+  donut.data.datasets[0].data=parts;
+  donut.update();
+}
+
+document.querySelectorAll('[data-preset]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-preset]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const p=presets[+btn.dataset.preset];
+    $('peso').value=p.peso; $('pe').value=p.pe; $('ciclo').value=p.ciclo;
+    $('gas').value=p.gas; $('cif').value=p.cif; $('fav').value=p.fav;
+    recalc();
+  });
+});
+
+['peso','pe','ciclo','gas','cif','fav','margen'].forEach(id=>{
+  $(id).addEventListener('input',recalc);
+});
+
+initChart();
+recalc();
+</script>
+</body>
+</html>
 
