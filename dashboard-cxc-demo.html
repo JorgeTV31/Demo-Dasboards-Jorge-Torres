@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Cartera (CxC) — Demo de portafolio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0A2E56; --navy-deep:#07203D; --amber:#FCA40C;
+    --canvas:#F6F6F4; --ink:#1E293B; --slate:#475569; --muted:#94A3B8;
+    --line:#E2E8F0; --card:#FFFFFF;
+    --green:#16A34A; --warn:#F59E0B; --red:#DC2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .serif{font-family:'Fraunces',Georgia,serif}
+  .mono{font-family:'DM Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  .num{font-family:'DM Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+  .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .flow-arrow{color:var(--muted);font-size:20px;line-height:1}
+  .chip{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px}
+  .sem-g{background:#DCFCE7;color:#15803D}
+  .sem-w{background:#FEF3C7;color:#B45309}
+  .sem-r{background:#FEE2E2;color:#B91C1C}
+  .dot{width:8px;height:8px;border-radius:999px;display:inline-block}
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{opacity:0;transform:translateY(8px);animation:rise .6s cubic-bezier(.2,.6,.2,1) forwards}
+    @keyframes rise{to{opacity:1;transform:none}}
+  }
+  ::-webkit-scrollbar{height:8px;width:8px}
+  ::-webkit-scrollbar-thumb{background:#CBD5E1;border-radius:9px}
+</style>
+</head>
+<body>
+
+<!-- ====== HEADER ====== -->
+<header style="background:linear-gradient(105deg,var(--navy-deep),var(--navy))">
+  <div class="max-w-[1180px] mx-auto px-5 sm:px-7 py-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:var(--amber)">
+        <span class="serif font-semibold text-[var(--navy-deep)] text-lg">C</span>
+      </div>
+      <div class="leading-tight">
+        <div class="text-white font-semibold tracking-tight">Demo Industrial S.A.</div>
+        <div class="text-[12px] text-slate-300">Control de Cartera · Cuentas por Cobrar</div>
+      </div>
+    </div>
+    <div class="ml-auto flex items-center gap-3">
+      <span class="chip" style="background:rgba(252,164,12,.16);color:#FCD37A;border:1px solid rgba(252,164,12,.35)">● DEMO · DATOS FICTICIOS</span>
+      <div class="hidden sm:flex items-center gap-2 text-slate-300 text-[13px]">
+        <span class="num text-white font-medium">Semana 25</span>
+        <span class="text-slate-500">·</span>
+        <span class="num">15 jun 2026</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-[1180px] mx-auto px-5 sm:px-7 py-8">
+
+  <!-- ====== SIGNATURE: FORMULA FLOW ====== -->
+  <section class="mb-9 reveal">
+    <div class="flex items-end justify-between flex-wrap gap-2 mb-3">
+      <div>
+        <div class="eyebrow">Construcción del objetivo de cobro</div>
+        <h1 class="serif text-[26px] sm:text-[30px] font-semibold tracking-tight mt-1" style="color:var(--navy)">Cómo se arma la meta de la semana</h1>
+      </div>
+      <div class="text-[13px] text-[var(--slate)] max-w-xs">El monto esperado no se asume: se deriva del saldo, las ventas y lo que aún no es exigible.</div>
+    </div>
+
+    <div class="card p-4 sm:p-5">
+      <div class="flex items-stretch gap-2 sm:gap-3 overflow-x-auto pb-1">
+
+        <div class="min-w-[148px] flex-1 rounded-xl px-4 py-3" style="background:#F8FAFC;border:1px solid var(--line)">
+          <div class="eyebrow">SI Cartera</div>
+          <div class="num text-[20px] font-medium mt-1" style="color:var(--ink)">$458,200</div>
+          <div class="text-[11px] text-[var(--muted)] mt-.5">Saldo inicial</div>
+        </div>
+        <div class="flex items-center flow-arrow font-light">+</div>
+        <div class="min-w-[148px] flex-1 rounded-xl px-4 py-3" style="background:#F8FAFC;border:1px solid var(--line)">
+          <div class="eyebrow">Ventas</div>
+          <div class="num text-[20px] font-medium mt-1" style="color:var(--ink)">$87,500</div>
+          <div class="text-[11px] text-[var(--muted)] mt-.5">Facturado semana</div>
+        </div>
+        <div class="flex items-center flow-arrow">→</div>
+        <div class="min-w-[156px] flex-1 rounded-xl px-4 py-3" style="background:var(--navy);">
+          <div class="eyebrow" style="color:#93B4D8">Disponible</div>
+          <div class="num text-[20px] font-medium mt-1 text-white">$545,700</div>
+          <div class="text-[11px] mt-.5" style="color:#7E9DC4">Total cobrable</div>
+        </div>
+        <div class="flex items-center flow-arrow font-light">−</div>
+        <div class="min-w-[148px] flex-1 rounded-xl px-4 py-3" style="background:#F8FAFC;border:1px solid var(--line)">
+          <div class="eyebrow">Deuda corriente</div>
+          <div class="num text-[20px] font-medium mt-1" style="color:var(--slate)">$310,400</div>
+          <div class="text-[11px] text-[var(--muted)] mt-.5">No exigible aún</div>
+        </div>
+        <div class="flex items-center flow-arrow">→</div>
+        <div class="min-w-[160px] flex-1 rounded-xl px-4 py-3" style="background:#FFF7E9;border:1px solid #F4D58D">
+          <div class="eyebrow" style="color:#B45309">Esperado</div>
+          <div class="num text-[20px] font-semibold mt-1" style="color:#92400E">$235,300</div>
+          <div class="text-[11px] mt-.5" style="color:#B07A1E">Exigible esta semana</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 mt-4 pt-4" style="border-top:1px dashed var(--line)">
+        <div class="text-[13px] text-[var(--slate)]">Cobrado <span class="num font-medium text-[var(--ink)]">$198,650</span> de <span class="num">$235,300</span> esperado</div>
+        <div class="flex-1 h-2.5 rounded-full overflow-hidden" style="background:#EEF2F7">
+          <div class="h-full rounded-full" style="width:84.4%;background:linear-gradient(90deg,var(--amber),#E8920A)"></div>
+        </div>
+        <div class="num font-semibold text-[18px]" style="color:#B45309">84.4%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== KPI ROW ====== -->
+  <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-9">
+    <div class="card p-4 reveal" style="animation-delay:.05s">
+      <div class="flex items-center justify-between"><div class="eyebrow">Cartera al cierre</div><span class="dot" style="background:var(--navy)"></span></div>
+      <div class="num text-[24px] font-medium mt-2" style="color:var(--navy)">$347,050</div>
+      <div class="text-[12px] text-[var(--slate)] mt-1">▼ 12.5% vs. semana 24</div>
+    </div>
+    <div class="card p-4 reveal" style="animation-delay:.1s">
+      <div class="flex items-center justify-between"><div class="eyebrow">Cobrado semana</div><span class="dot" style="background:var(--amber)"></span></div>
+      <div class="num text-[24px] font-medium mt-2" style="color:#B45309">$198,650</div>
+      <div class="text-[12px] text-[var(--slate)] mt-1">▲ 6.3% vs. semana 24</div>
+    </div>
+    <div class="card p-4 reveal" style="animation-delay:.15s">
+      <div class="flex items-center justify-between"><div class="eyebrow">Cumplimiento</div><span class="chip sem-w">Bajo meta</span></div>
+      <div class="num text-[24px] font-medium mt-2" style="color:var(--warn)">84.4%</div>
+      <div class="text-[12px] text-[var(--slate)] mt-1">Meta interna: 90%</div>
+    </div>
+    <div class="card p-4 reveal" style="animation-delay:.2s">
+      <div class="flex items-center justify-between"><div class="eyebrow">Cartera vencida</div><span class="chip sem-r">Atención</span></div>
+      <div class="num text-[24px] font-medium mt-2" style="color:var(--red)">$76,950</div>
+      <div class="text-[12px] text-[var(--slate)] mt-1">22.2% del total · &gt;1 día</div>
+    </div>
+  </section>
+
+  <!-- ====== CHARTS ====== -->
+  <section class="grid lg:grid-cols-5 gap-4 mb-9">
+    <div class="card p-5 lg:col-span-3 reveal">
+      <div class="flex items-center justify-between mb-1">
+        <div>
+          <div class="eyebrow">Evolución semanal</div>
+          <h2 class="serif text-[18px] font-semibold mt-.5" style="color:var(--navy)">Cobrado vs. esperado</h2>
+        </div>
+        <div class="flex items-center gap-3 text-[12px]">
+          <span class="flex items-center gap-1.5"><span class="dot" style="background:var(--navy)"></span>Esperado</span>
+          <span class="flex items-center gap-1.5"><span class="dot" style="background:var(--amber)"></span>Cobrado</span>
+        </div>
+      </div>
+      <div style="height:260px"><canvas id="trend"></canvas></div>
+    </div>
+
+    <div class="card p-5 lg:col-span-2 reveal" style="animation-delay:.1s">
+      <div class="eyebrow">Cartera por antigüedad</div>
+      <h2 class="serif text-[18px] font-semibold mt-.5 mb-2" style="color:var(--navy)">Aging al cierre</h2>
+      <div style="height:230px"><canvas id="aging"></canvas></div>
+    </div>
+  </section>
+
+  <!-- ====== TOP DEUDORES ====== -->
+  <section class="card overflow-hidden reveal mb-8">
+    <div class="px-5 pt-5 pb-3 flex items-center justify-between flex-wrap gap-2">
+      <div>
+        <div class="eyebrow">Concentración de riesgo</div>
+        <h2 class="serif text-[18px] font-semibold mt-.5" style="color:var(--navy)">Principales deudores</h2>
+      </div>
+      <div class="text-[12px] text-[var(--slate)]">7 clientes · 64% de la cartera</div>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-[13px]">
+        <thead>
+          <tr class="text-left" style="color:var(--muted);border-bottom:1px solid var(--line)">
+            <th class="font-semibold py-2.5 px-5 text-[11px] tracking-wider uppercase">Cliente</th>
+            <th class="font-semibold py-2.5 px-3 text-[11px] tracking-wider uppercase text-right">Saldo</th>
+            <th class="font-semibold py-2.5 px-3 text-[11px] tracking-wider uppercase text-right">Por vencer</th>
+            <th class="font-semibold py-2.5 px-3 text-[11px] tracking-wider uppercase text-right">Vencido</th>
+            <th class="font-semibold py-2.5 px-5 text-[11px] tracking-wider uppercase">Estado</th>
+          </tr>
+        </thead>
+        <tbody id="deudores"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="text-center text-[12px] text-[var(--muted)] pb-4">
+    <p>Pieza de portafolio · Todos los datos, clientes y cifras son <strong>ficticios</strong> y no corresponden a ninguna empresa real.</p>
+    <p class="mt-1">Diseño y desarrollo del tablero por <strong style="color:var(--slate)">Jorge Torres Villamar </strong> · Reemplaza con tu nombre completo.</p>
+  </footer>
+</main>
+
+<script>
+Chart.register(ChartDataLabels);
+const NAVY='#0A2E56', AMBER='#FCA40C', MUTED='#94A3B8';
+const fmtK = v => '$'+(v/1000).toFixed(0)+'k';
+const fmt = v => '$'+v.toLocaleString('en-US');
+
+// ---- Trend ----
+new Chart(document.getElementById('trend'),{
+  type:'line',
+  data:{
+    labels:['S18','S19','S20','S21','S22','S23','S24','S25'],
+    datasets:[
+      {label:'Esperado',data:[210,198,225,240,232,218,229,235.3],borderColor:NAVY,backgroundColor:'rgba(10,46,86,.06)',borderWidth:2,borderDash:[5,4],tension:.3,fill:true,pointRadius:0,pointHoverRadius:4},
+      {label:'Cobrado',data:[195,188,210,198,221,205,212,198.65],borderColor:AMBER,backgroundColor:'rgba(252,164,12,.10)',borderWidth:2.5,tension:.3,fill:true,pointRadius:3,pointBackgroundColor:AMBER,pointHoverRadius:5}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},datalabels:{display:false},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.parsed.y*1000).toLocaleString('en-US')}}},
+    scales:{
+      y:{grid:{color:'#EEF2F7'},border:{display:false},ticks:{color:MUTED,font:{family:'DM Mono'},callback:v=>'$'+v+'k'}},
+      x:{grid:{display:false},border:{display:false},ticks:{color:MUTED,font:{family:'DM Mono'}}}
+    }
+  }
+});
+
+// ---- Aging ----
+const agingData=[198.3,71.8,42.1,19.65,15.2];
+const agingColors=['#16A34A','#84CC16','#F59E0B','#F97316','#DC2626'];
+new Chart(document.getElementById('aging'),{
+  type:'bar',
+  data:{
+    labels:['Por vencer','1–30 d','31–60 d','61–90 d','+90 d'],
+    datasets:[{data:agingData,backgroundColor:agingColors,borderRadius:6,barThickness:26}]
+  },
+  options:{
+    indexAxis:'y',responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},
+      datalabels:{anchor:'end',align:'end',color:'#475569',font:{family:'DM Mono',size:11},formatter:v=>'$'+v+'k'},
+      tooltip:{callbacks:{label:c=>'$'+(c.parsed.x*1000).toLocaleString('en-US')}}},
+    layout:{padding:{right:34}},
+    scales:{
+      x:{display:false,grid:{display:false}},
+      y:{grid:{display:false},border:{display:false},ticks:{color:'#475569',font:{family:'Inter',size:12}}}
+    }
+  }
+});
+
+// ---- Deudores ----
+const deudores=[
+  {n:'Comercial Andina S.A.',saldo:52400,vencer:38200,vencido:14200,e:'r'},
+  {n:'Distribuidora El Litoral Cía. Ltda.',saldo:41900,vencer:35100,vencido:6800,e:'w'},
+  {n:'Plásticos del Pacífico S.A.',saldo:38200,vencer:38200,vencido:0,e:'g'},
+  {n:'Ferretería Vulcano',saldo:29700,vencer:18400,vencido:11300,e:'r'},
+  {n:'AgroInsumos Manabí',saldo:24500,vencer:22000,vencido:2500,e:'w'},
+  {n:'Importadora Tungurahua',saldo:18300,vencer:18300,vencido:0,e:'g'},
+  {n:'Constructora Río Verde',saldo:14800,vencer:9200,vencido:5600,e:'w'}
+];
+const badge={g:['sem-g','Al día'],w:['sem-w','Seguimiento'],r:['sem-r','Vencido']};
+document.getElementById('deudores').innerHTML=deudores.map(d=>`
+  <tr style="border-bottom:1px solid var(--line)">
+    <td class="py-3 px-5 font-medium">${d.n}</td>
+    <td class="py-3 px-3 num text-right font-medium">${fmt(d.saldo)}</td>
+    <td class="py-3 px-3 num text-right text-[var(--slate)]">${fmt(d.vencer)}</td>
+    <td class="py-3 px-3 num text-right ${d.vencido>0?'':'text-[var(--muted)]'}" ${d.vencido>0?'style="color:var(--red);font-weight:500"':''}>${d.vencido>0?fmt(d.vencido):'—'}</td>
+    <td class="py-3 px-5"><span class="chip ${badge[d.e][0]}">${badge[d.e][1]}</span></td>
+  </tr>`).join('');
+</script>
+</body>
+</html>
