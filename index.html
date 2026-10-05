@@ -21,7 +21,7 @@
   .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
   .card{background:var(--card);border:1px solid var(--line);border-radius:16px;transition:transform .25s cubic-bezier(.2,.6,.2,1),box-shadow .25s,border-color .25s;display:block;text-decoration:none;color:inherit}
   .card:hover{transform:translateY(-4px);box-shadow:0 16px 40px -18px rgba(10,46,86,.35);border-color:#C7D5E6}
-  .thumb{height:150px;border-radius:12px;position:relative;overflow:hidden}
+  .thumb{height:140px;border-radius:12px;position:relative;overflow:hidden}
   .arrow{transition:transform .25s}
   .card:hover .arrow{transform:translateX(4px)}
   .barline{position:absolute;bottom:0;border-radius:3px 3px 0 0}
@@ -32,24 +32,24 @@
 
 <!-- HERO -->
 <header style="background:linear-gradient(120deg,var(--navy-deep),var(--navy))">
-  <div class="max-w-[980px] mx-auto px-6 py-14 sm:py-20">
+  <div class="max-w-[1040px] mx-auto px-6 py-14 sm:py-20">
     <div class="eyebrow" style="color:#7E9DC4">Portafolio profesional</div>
     <h1 class="serif text-white text-[34px] sm:text-[46px] font-semibold tracking-tight mt-3 leading-[1.1]">
       CPA Jorge Torres Villamar
     </h1>
     <p class="text-slate-300 text-[16px] sm:text-[18px] mt-4 max-w-xl leading-relaxed">
-      Contador especializado en control de cartera, cierre y cumplimiento tributario — que diseña las herramientas con las que el área financiera decide más rápido.
+      Convierto datos financieros en decisiones. Contador especializado en costos, control de gestión y análisis — que diseña las herramientas con las que el área financiera decide más rápido.
     </p>
     <div class="flex flex-wrap gap-2 mt-6">
+      <span class="chip" style="background:rgba(255,255,255,.08);color:#CBD8E8">Análisis de costos</span>
+      <span class="chip" style="background:rgba(255,255,255,.08);color:#CBD8E8">Control de gestión</span>
       <span class="chip" style="background:rgba(255,255,255,.08);color:#CBD8E8">Cuentas por cobrar</span>
-      <span class="chip" style="background:rgba(255,255,255,.08);color:#CBD8E8">Costos de producción</span>
-      <span class="chip" style="background:rgba(255,255,255,.08);color:#CBD8E8">SRI · Supercias</span>
-      <span class="chip" style="background:rgba(252,164,12,.16);color:#FCD37A">Dashboards financieros</span>
+      <span class="chip" style="background:rgba(252,164,12,.16);color:#FCD37A">Dashboards · Power BI</span>
     </div>
   </div>
 </header>
 
-<main class="max-w-[980px] mx-auto px-6 py-12">
+<main class="max-w-[1040px] mx-auto px-6 py-12">
   <div class="flex items-end justify-between mb-6">
     <div>
       <div class="eyebrow">Demos</div>
@@ -58,12 +58,11 @@
     <span class="text-[12px] text-[var(--muted)] text-right max-w-[200px]">Todos los datos son ficticios. Diseño y desarrollo propios.</span>
   </div>
 
-  <div class="grid sm:grid-cols-2 gap-5">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
     <!-- CARTERA -->
     <a class="card p-4" href="cartera/">
       <div class="thumb" style="background:linear-gradient(135deg,#0A2E56,#143b6b)">
-        <!-- mini bars -->
         <div class="barline" style="left:9%;width:11%;height:42%;background:#3B5C86"></div>
         <div class="barline" style="left:24%;width:11%;height:64%;background:#3B5C86"></div>
         <div class="barline" style="left:39%;width:11%;height:50%;background:#3B5C86"></div>
@@ -73,7 +72,7 @@
         <span class="chip absolute top-3 left-3" style="background:rgba(255,255,255,.14);color:#fff">Visualización</span>
       </div>
       <div class="px-1 pt-4 pb-1">
-        <h3 class="font-semibold text-[17px] tracking-tight" style="color:var(--navy)">Tablero de Control de Cartera (CxC)</h3>
+        <h3 class="font-semibold text-[16px] tracking-tight" style="color:var(--navy)">Tablero de Control de Cartera (CxC)</h3>
         <p class="text-[13px] text-[var(--slate)] mt-1.5 leading-relaxed">Seguimiento semanal de cobro: objetivo esperado, cumplimiento con semáforo, aging y riesgo por deudor.</p>
         <div class="flex items-center gap-1 mt-3 text-[13px] font-semibold" style="color:var(--amber)">
           Abrir demo <span class="arrow">→</span>
@@ -84,15 +83,36 @@
     <!-- CALCULADORA -->
     <a class="card p-4" href="calculadora/">
       <div class="thumb" style="background:linear-gradient(135deg,#07203D,#0A2E56)">
-        <!-- donut -->
         <div class="absolute inset-0 flex items-center justify-center">
-          <div style="width:88px;height:88px;border-radius:999px;background:conic-gradient(var(--amber) 0 84%,#2563EB 84% 92%,#16A34A 92% 100%);-webkit-mask:radial-gradient(circle 26px at center,transparent 98%,#000 100%);mask:radial-gradient(circle 26px at center,transparent 98%,#000 100%)"></div>
+          <div style="width:80px;height:80px;border-radius:999px;background:conic-gradient(var(--amber) 0 84%,#2563EB 84% 92%,#16A34A 92% 100%);-webkit-mask:radial-gradient(circle 24px at center,transparent 98%,#000 100%);mask:radial-gradient(circle 24px at center,transparent 98%,#000 100%)"></div>
         </div>
         <span class="chip absolute top-3 left-3" style="background:rgba(252,164,12,.22);color:#FCD37A">Interactivo</span>
       </div>
       <div class="px-1 pt-4 pb-1">
-        <h3 class="font-semibold text-[17px] tracking-tight" style="color:var(--navy)">Calculadora de Costos de Producción</h3>
-        <p class="text-[13px] text-[var(--slate)] mt-1.5 leading-relaxed">Recalcula costo unitario, precio sugerido y composición en tiempo real. Modelo de costeo para rotomoldeo.</p>
+        <h3 class="font-semibold text-[16px] tracking-tight" style="color:var(--navy)">Calculadora de Costos de Producción</h3>
+        <p class="text-[13px] text-[var(--slate)] mt-1.5 leading-relaxed">Recalcula costo unitario, precio sugerido y composición en tiempo real. Modelo de costeo industrial.</p>
+        <div class="flex items-center gap-1 mt-3 text-[13px] font-semibold" style="color:var(--amber)">
+          Abrir demo <span class="arrow">→</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- HACIENDA -->
+    <a class="card p-4" href="hacienda/">
+      <div class="thumb" style="background:linear-gradient(135deg,#0f5132,#17803d)">
+        <div class="barline" style="left:10%;width:12%;height:38%;background:#bfe3b8"></div>
+        <div class="barline" style="left:26%;width:12%;height:84%;background:#8ed081"></div>
+        <div class="barline" style="left:42%;width:12%;height:62%;background:#8ed081"></div>
+        <div class="barline" style="left:58%;width:12%;height:72%;background:#7cc0e8"></div>
+        <div class="barline" style="left:74%;width:12%;height:50%;background:#bfe3b8"></div>
+        <svg class="absolute" style="left:0;top:0" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <polyline points="4,70 20,60 36,30 52,44 68,22 84,34 96,18" fill="none" stroke="#FCA40C" stroke-width="2.5"/>
+        </svg>
+        <span class="chip absolute top-3 left-3" style="background:rgba(255,255,255,.16);color:#fff">Control financiero</span>
+      </div>
+      <div class="px-1 pt-4 pb-1">
+        <h3 class="font-semibold text-[16px] tracking-tight" style="color:var(--navy)">Dashboard Financiero Agrícola</h3>
+        <p class="text-[13px] text-[var(--slate)] mt-1.5 leading-relaxed">Costos y rentabilidad por lote, presupuesto vs. real, flujo de caja estacional y punto de equilibrio.</p>
         <div class="flex items-center gap-1 mt-3 text-[13px] font-semibold" style="color:var(--amber)">
           Abrir demo <span class="arrow">→</span>
         </div>
